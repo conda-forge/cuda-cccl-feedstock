@@ -35,7 +35,7 @@ build:
 
 test:
   commands:
-    - test -f $PREFIX/lib/cmake                      # [linux]
+    - test -d $PREFIX/lib/cmake                      # [linux]
     - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
 
 outputs:
