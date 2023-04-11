@@ -30,8 +30,13 @@ source:
   sha256: dd422d4cc8462d112411659a56cc78cb6010d704f83db3e48c55a3f66eed5ec2  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx]
+
+test:
+  commands:
+    - test -f $PREFIX/lib/cmake                      # [linux]
+    - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
 
 outputs:
   - name: cuda-cccl
@@ -46,10 +51,7 @@ outputs:
         - cuda-cccl-impl =={{ impl_version }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
-    test:
-      commands:
-        - test -d $PREFIX/targets/{{ target_name }}/lib      # [linux]
-        - test -d $PREFIX/lib/cmake  # [linux]
+    # Tests are defined at the top level, due to package/output name conflicts.
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
