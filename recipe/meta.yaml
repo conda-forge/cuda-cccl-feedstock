@@ -1,7 +1,7 @@
 {% set name = "cuda-cccl" %}
-{% set version = "12.0.90" %}
+{% set version = "12.1.109" %}
 {% set impl_version = "2.0.1" %}
-{% set cuda_version = "12.0" %}
+{% set cuda_version = "12.1" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
 {% set platform = "linux-sbsa" %}  # [aarch64]
@@ -24,13 +24,13 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cccl/{{ platform }}/cuda_cccl-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 37f6e03b6f95579d8e2e96b9ba15eeb1224dcd18b21ad50c3ac249e408152a24  # [linux64]
-  sha256: c6de67acd6a65b24db0383f6330b842ed19b6c27a27a37f828e9f3e96cc96f72  # [ppc64le]
-  sha256: f2a19927c558a9c872fa87eda4c0dc0446e5c4c744df4f846d01f4d4e08c8cd7  # [aarch64]
-  sha256: dd422d4cc8462d112411659a56cc78cb6010d704f83db3e48c55a3f66eed5ec2  # [win]
+  sha256: b84ef3ec3dc1b4891267be25846f0c3ed7f9fa84154d59eba805402b86991baa  # [linux64]
+  sha256: 54fc03a5d3682e7f09c04d67f8db84a1921b6144838d9e4281584b556e8bdf68  # [ppc64le]
+  sha256: bddd9462467f65e1e766998a75b363643e1e99e7ad1640c4e94f5df7d881e757  # [aarch64]
+  sha256: 2bf3d61e695abc8c4b5dbb06c6b5286cfd4c27037bb5ea7e6ba232a266b6677b  # [win]
 
 build:
-  number: 1
+  number: 0
   skip: true  # [osx]
 
 test:
@@ -106,4 +106,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - adibbley
+    - conda-forge/cuda
