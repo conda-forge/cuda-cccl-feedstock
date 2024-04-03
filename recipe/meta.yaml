@@ -1,6 +1,6 @@
 {% set name = "cuda-cccl" %}
 {% set version = "12.4.99" %}
-{% set impl_version = "2.3.1" %}
+{% set cccl_version = "2.3.1" %}
 {% set cuda_version = "12.4" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
@@ -48,7 +48,7 @@ outputs:
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - cuda-cccl_{{ target_platform }} =={{ version }}
-        - cccl =={{ impl_version }}
+        - cccl =={{ cccl_version }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     # Tests are defined at the top level, due to package/output name conflicts.
