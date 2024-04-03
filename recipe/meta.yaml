@@ -30,7 +30,7 @@ source:
   sha256: 6c08a5fb2bace6bc0db853dd3ea59d040cc2498b47ed98e63e0ffffa4da00caa  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx]
 
 test:
