@@ -37,6 +37,8 @@ test:
   commands:
     - test -d $PREFIX/lib/cmake                      # [linux]
     - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
+    - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
+    - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
     # Extracts the correct cccl version from Nvidia's cuda_cccl archive, and compares it against the version of the cccl conda package
     - CCCL_VERSION_MAJOR=$(grep "set(CCCL_VERSION_MAJOR" $PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake | cut -d " " -f2 | tr -d ')')   # [linux]
     - CCCL_VERSION_MINOR=$(grep "set(CCCL_VERSION_MINOR" $PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake | cut -d " " -f2 | tr -d ')')   # [linux]
