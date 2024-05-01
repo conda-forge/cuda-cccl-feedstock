@@ -44,7 +44,7 @@ test:
     - CCCL_VERSION_MAJOR=$(sed -n 's/set(CCCL_VERSION_MAJOR \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
     - CCCL_VERSION_MINOR=$(sed -n 's/set(CCCL_VERSION_MINOR \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
     - CCCL_VERSION_PATCH=$(sed -n 's/set(CCCL_VERSION_PATCH \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
-    - [[ "${CCCL_VERSION_MAJOR}.${CCCL_VERSION_MINOR}.${CCCL_VERSION_PATCH}" == "{{ cccl_version }}" ]] || exit 1  # [linux]
+    - '[[ "${CCCL_VERSION_MAJOR}.${CCCL_VERSION_MINOR}.${CCCL_VERSION_PATCH}" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
 
 outputs:
   - name: cuda-cccl
