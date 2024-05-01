@@ -34,17 +34,19 @@ build:
   skip: true  # [osx]
 
 test:
+  requires:
+    - cmake  # [linux]
+  files:
+    - verify-version.cmake  # [linux]
   commands:
     - test -d $PREFIX/lib/cmake                      # [linux]
     - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
     - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
     - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
-    # Extracts the correct cccl version from Nvidia's cuda_cccl archive, and compares it against the version of the cccl conda package
-    - CCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake"  # [linux]
-    - CCCL_VERSION_MAJOR=$(sed -n 's/set(CCCL_VERSION_MAJOR \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
-    - CCCL_VERSION_MINOR=$(sed -n 's/set(CCCL_VERSION_MINOR \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
-    - CCCL_VERSION_PATCH=$(sed -n 's/set(CCCL_VERSION_PATCH \([0-9]*\))/\1/p' ${CCCL_VERSION_FILE})  # [linux]
-    - '[[ "${CCCL_VERSION_MAJOR}.${CCCL_VERSION_MINOR}.${CCCL_VERSION_PATCH}" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
+    # Extract the CCCL version from the cuda_cccl archive, and compare to the
+    # version of the cccl conda package.
+    - export CCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake"  # [linux]
+    - '[[ "$(cmake -P verify-version.cmake 2>&1)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
 
 outputs:
   - name: cuda-cccl
