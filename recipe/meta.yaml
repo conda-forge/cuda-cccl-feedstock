@@ -46,7 +46,7 @@ test:
     # Extract the CCCL version from the cuda_cccl archive, and compare to the
     # version of the cccl conda package.
     - export CCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake"  # [linux]
-    - '[[ "$(cmake -P verify-version.cmake 2>&1)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
+    - '[[ "$(cmake -P verify-version.cmake 2>&1)" == "{{ cccl_version }}" ]] || exit 1'                      # [linux]
 
 outputs:
   - name: cuda-cccl
