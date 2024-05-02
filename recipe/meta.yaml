@@ -45,7 +45,7 @@ test:
     - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
     # Extract the CCCL version from the cuda_cccl archive, and compare to the
     # version of the cccl conda package.
-    - '[[ "$(cmake -DCCCL_VERSION_FILE=\"$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake\" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
+    - '[[ "$(cmake -DCCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
 
 outputs:
   - name: cuda-cccl
