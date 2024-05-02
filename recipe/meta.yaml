@@ -1,6 +1,6 @@
 {% set name = "cuda-cccl" %}
 {% set version = "12.4.127" %}
-{% set cccl_version = "2.3.1" %}
+{% set cccl_version = "2.3.2" %}
 {% set cuda_version = "12.4" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
@@ -30,13 +30,22 @@ source:
   sha256: 908742d8f3c6fdd6d1d6316a7b919b5c506474f9551f491aa7335cb4f50bffbd  # [win]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [osx]
 
 test:
+  requires:
+    - cmake  # [linux]
+  files:
+    - verify-version.cmake  # [linux]
   commands:
     - test -d $PREFIX/lib/cmake                      # [linux]
     - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
+    - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
+    - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
+    # Extract the CCCL version from the cuda_cccl archive, and compare to the
+    # version of the cccl conda package.
+    - '[[ "$(cmake -DCCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
 
 outputs:
   - name: cuda-cccl
