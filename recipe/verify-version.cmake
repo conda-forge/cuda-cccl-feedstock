@@ -1,5 +1,5 @@
 if(NOT CCCL_VERSION_FILE)
-    message(FATAL_ERROR "CCCL_VERSION_FILE environment variable is not set.")
+    message(FATAL_ERROR "CCCL_VERSION_FILE variable is not set.")
 else()
     include(${CCCL_VERSION_FILE})
     if(DEFINED CCCL_VERSION_MAJOR AND DEFINED CCCL_VERSION_MINOR AND DEFINED CCCL_VERSION_PATCH)
