@@ -1,5 +1,3 @@
-set(CCCL_VERSION_FILE $ENV{CCCL_VERSION_FILE})
-
 if(NOT CCCL_VERSION_FILE)
     message(FATAL_ERROR "CCCL_VERSION_FILE environment variable is not set.")
 else()
