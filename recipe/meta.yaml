@@ -4,11 +4,13 @@
 {% set cuda_version = "12.6" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-ppc64le" %}  # [ppc64le]
-{% set platform = "linux-sbsa" %}  # [aarch64]
+{% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set platform = "linux-aarch64" %}  # [aarch64 and arm_variant_type=="tegra"]
 {% set platform = "windows-x86_64" %}  # [win]
 {% set target_name = "x86_64-linux" %}  # [linux64]
 {% set target_name = "ppc64le-linux" %}  # [ppc64le]
-{% set target_name = "sbsa-linux" %}  # [aarch64]
+{% set target_name = "sbsa-linux" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set target_name = "aarch64-linux" %}  # [aarch64 and arm_variant_type=="tegra"]
 {% set target_name = "x64" %}  # [win]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
@@ -19,32 +21,19 @@
 # The cuda-cccl package is a metapackage that depends on cccl and cuda-cccl_{{ target_platform }} to ensure that versions are consistent. Use this package to say, "I want to build with the thrust headers that shipped with CUDA Toolkit X.Y" by adding dependencies on `cuda-cccl` and `cuda-version X.Y`.
 
 package:
-  name: {{ name|lower }}
+  name: cuda-cccl-split
   version: {{ version }}
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cccl/{{ platform }}/cuda_cccl-{{ platform }}-{{ version }}-archive.{{ extension }}
   sha256: 9c3145ef01f73e50c0f5fcf923f0899c847f487c529817daa8f8b1a3ecf20925  # [linux64]
-  sha256: cea5f1487b9ff78a01cadd96e950bfe6fe4bc638849fae81b8739adfdde47146  # [aarch64]
+  sha256: cea5f1487b9ff78a01cadd96e950bfe6fe4bc638849fae81b8739adfdde47146  # [aarch64 and arm_variant_type=="sbsa"]
+  sha256: ab8bd5c346ca69c96ac9afb9d317e8cbc0ec8fc32629ca17b38c14b3dede2fb7  # [aarch64 and arm_variant_type=="tegra"]
   sha256: 469b783b6731964170b3d27ae214e97e2a63ec93c57ace3ed4052e6d01261f2e  # [win]
 
 build:
   number: 0
   skip: true  # [osx or ppc64le]
-
-test:
-  requires:
-    - cmake  # [linux]
-  files:
-    - verify-version.cmake  # [linux]
-  commands:
-    - test -d $PREFIX/lib/cmake                      # [linux]
-    - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
-    - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
-    - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
-    # Extract the CCCL version from the cuda_cccl archive, and compare to the
-    # version of the cccl conda package.
-    - '[[ "$(cmake -DCCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
 
 outputs:
   - name: cuda-cccl
@@ -59,7 +48,19 @@ outputs:
         - cccl =={{ cccl_version }}
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
-    # Tests are defined at the top level, due to package/output name conflicts.
+    test:
+      requires:
+        - cmake  # [linux]
+      files:
+        - verify-version.cmake  # [linux]
+      commands:
+        - test -d $PREFIX/lib/cmake                      # [linux]
+        - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
+        - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
+        - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
+        # Extract the CCCL version from the cuda_cccl archive, and compare to the
+        # version of the cccl conda package.
+        - '[[ "$(cmake -DCCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
     about:
       home: https://developer.nvidia.com/cuda-toolkit
       license_file: LICENSE
