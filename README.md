@@ -1,5 +1,5 @@
-About cuda-cccl-feedstock
-=========================
+About cuda-cccl-split-feedstock
+===============================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/cuda-cccl-feedstock/blob/main/LICENSE.txt)
 
@@ -39,10 +39,17 @@ Current build status
                 </a>
               </td>
             </tr><tr>
-              <td>linux_aarch64</td>
+              <td>linux_aarch64_arm_variant_typesbsa</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=19082&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cuda-cccl-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_" alt="variant">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cuda-cccl-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_arm_variant_typesbsa" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>linux_aarch64_arm_variant_typetegra</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=19082&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cuda-cccl-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_arm_variant_typetegra" alt="variant">
                 </a>
               </td>
             </tr><tr>
@@ -68,10 +75,10 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cuda--cccl-green.svg)](https://anaconda.org/conda-forge/cuda-cccl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cuda-cccl.svg)](https://anaconda.org/conda-forge/cuda-cccl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cuda-cccl.svg)](https://anaconda.org/conda-forge/cuda-cccl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cuda-cccl.svg)](https://anaconda.org/conda-forge/cuda-cccl) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-cuda--cccl_linux--64-green.svg)](https://anaconda.org/conda-forge/cuda-cccl_linux-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/cuda-cccl_linux-64.svg)](https://anaconda.org/conda-forge/cuda-cccl_linux-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/cuda-cccl_linux-64.svg)](https://anaconda.org/conda-forge/cuda-cccl_linux-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/cuda-cccl_linux-64.svg)](https://anaconda.org/conda-forge/cuda-cccl_linux-64) |
 
-Installing cuda-cccl
-====================
+Installing cuda-cccl-split
+==========================
 
-Installing `cuda-cccl` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `cuda-cccl-split` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -157,17 +164,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating cuda-cccl-feedstock
-============================
+Updating cuda-cccl-split-feedstock
+==================================
 
-If you would like to improve the cuda-cccl recipe or build a new
+If you would like to improve the cuda-cccl-split recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/cuda-cccl-feedstock are
+Note that all branches in the conda-forge/cuda-cccl-split-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
 build distinct package versions.
