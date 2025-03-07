@@ -32,7 +32,7 @@ source:
   sha256: bd8548fa1ae82f92910bebc3079e14bd58c5a92aa64596d46bd610a478cb39d7  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx or ppc64le]
 
 outputs:
@@ -46,7 +46,6 @@ outputs:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
         - cuda-cccl_{{ target_platform }} =={{ version }}
         - cccl =={{ cccl_version }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       requires:
@@ -85,7 +84,6 @@ outputs:
         - cuda-version {{ cuda_version }}
       run:
         - {{ pin_compatible("cuda-version", max_pin="x.x") }}
-      run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       commands:
