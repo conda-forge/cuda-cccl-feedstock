@@ -18,3 +18,5 @@ mkdir -p ${PREFIX}/${targetsDir}
 
 cp -rv lib ${PREFIX}/${targetsDir}
 cp -rv include ${PREFIX}/${targetsDir}
+
+check-glibc "$PREFIX"/lib*/*.so.* "$PREFIX"/bin/* "$PREFIX"/targets/*/lib*/*.so.* "$PREFIX"/targets/*/bin/*
