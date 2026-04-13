@@ -1,5 +1,5 @@
 {% set name = "cuda-cccl" %}
-{% set version = "13.2.27" %}
+{% set version = "13.2.75" %}
 {% set cccl_version = "3.2.0" %}
 {% set cuda_version = "13.2" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
@@ -26,10 +26,10 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/cuda/redist/cuda_cccl/{{ platform }}/cuda_cccl-{{ platform }}-{{ version }}-archive.{{ extension }}
-  sha256: 56e1bafb29faa87375b0484814870046530b88c0a421909096892f027ec1927b  # [linux64]
-  sha256: 1587f83b92aef54414cd118723ec1e4c118e14c70ac7779e13caa941f8030faf  # [aarch64 and arm_variant_type=="sbsa"]
-  #sha256: 8c87c2db67130108861609eacd40d30ee109656a7765e5172eab71dd6da4c453  # [aarch64 and arm_variant_type=="tegra"]
-  sha256: fb61bbca384ea9e5722f3b77cfdd635c916f33593d187562510ce14831aa629a  # [win]
+  sha256: 1801f304d92085a327ab46db58264d7f7f48cce80f5825637c405c3a2410dadd  # [linux64]
+  sha256: 296248ed702ea9e1a5e43c367d7a09a9ce2fda8a8c21101c428ea79eecf1a46c  # [aarch64 and arm_variant_type=="sbsa"]
+  #sha256: 296248ed702ea9e1a5e43c367d7a09a9ce2fda8a8c21101c428ea79eecf1a46c  # [aarch64 and arm_variant_type=="tegra"]
+  sha256: 4c799e2c502ccc9a712d90baa102d9a2f6c50d6303f9e07a227ef4756c4d0a6a  # [win]
 
 build:
   number: 0
