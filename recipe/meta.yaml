@@ -13,7 +13,6 @@
 {% set target_name = "arm64" %}  # [win and arm64]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
-{% set kitmaker_source = environ.get("KITMAKER_CONDA_SOURCE") %}
 
 {% set platform = platform | default("linux-x86_64", true) %}
 {% set major = load_file_regex(load_file="lib/cmake/cccl/cccl-config-version.cmake", regex_pattern="CCCL_VERSION_MAJOR[ \t]+([0-9]+)") %}
@@ -36,11 +35,7 @@ package:
   version: {{ version }}
 
 source:
-{% if kitmaker_source %}
-  url: "{{ kitmaker_source }}"
-{% else %}
   url: https://developer.download.nvidia.com/compute/cuda/redist/cccl/{{ platform }}/cccl-{{ platform }}-{{ version }}-archive.{{ extension }}
-{% endif %}
   # Only the platforms with a published hash get the key. A variant with no matching
   # assignment above (ppc64le, tegra) would otherwise render an empty sha256, which
   # conda-build rejects -- breaking `conda smithy rerender` even though no such
