@@ -1,6 +1,6 @@
 {% set name = "cuda-cccl" %}
-{% set version = "13.3.4.3.1" %}
-{% set cuda_version = "13.4" %}
+{% set version = "13.3.5.0.6" %}
+{% set cuda_version = "13.5" %}
 {% set platform = "linux-x86_64" %}  # [linux64]
 {% set platform = "linux-sbsa" %}  # [aarch64 and arm_variant_type=="sbsa"]
 {% set platform = "linux-aarch64" %}  # [aarch64 and arm_variant_type=="tegra"]
@@ -13,17 +13,18 @@
 {% set target_name = "arm64" %}  # [win and arm64]
 {% set extension = "tar.xz" %}  # [not win]
 {% set extension = "zip" %}  # [win]
+{% set kitmaker_source = environ.get("KITMAKER_CONDA_SOURCE") %}
 
 {% set platform = platform | default("linux-x86_64", true) %}
 {% set major = load_file_regex(load_file="lib/cmake/cccl/cccl-config-version.cmake", regex_pattern="CCCL_VERSION_MAJOR[ \t]+([0-9]+)") %}
 {% set minor = load_file_regex(load_file="lib/cmake/cccl/cccl-config-version.cmake", regex_pattern="CCCL_VERSION_MINOR[ \t]+([0-9]+)") %}
 {% set patch = load_file_regex(load_file="lib/cmake/cccl/cccl-config-version.cmake", regex_pattern="CCCL_VERSION_PATCH[ \t]+([0-9]+)") %}
 {% set cccl_version = (major.group(1) ~ "." ~ minor.group(1) ~ "." ~ patch.group(1)) if major else "0.0.0" %}
-{% set sha256 = "6b7516074f42f80dd3feb9c11318c8e1c5ab56cdd9f18fff4c5ace2e7e0a8209" %}  # [linux64]
-{% set sha256 = "e36cc409c7ef4c3da18f0dd7f301b0df826121924cf817a7ff2ae508c944c6a1" %}  # [aarch64 and arm_variant_type=="sbsa"]
+{% set sha256 = "5139f641e72df6b0c64ee9e68cabaeafa9a5e36a4b1f7d370a1dc0dac62dd72f" %}  # [linux64]
+{% set sha256 = "c308969d8ad6de704c3f8be9ccf5ff2c9b40dd6e23b43b6e4057d255779d5ada" %}  # [aarch64 and arm_variant_type=="sbsa"]
 #{% set sha256 = "296248ed702ea9e1a5e43c367d7a09a9ce2fda8a8c21101c428ea79eecf1a46c" %}  # [aarch64 and arm_variant_type=="tegra"]
-{% set sha256 = "17d0ca1592c0dfc974a5fc39f470a6b7bae40da239e3e19bd0752017735acbca" %}  # [win64]
-{% set sha256 = "e298fc4546a889a4d8329657eac567d93a082c0480d7c9b23690d28d8753d21d" %}  # [win and arm64]
+{% set sha256 = "33b31a28db58aff9bd0a60a53e8424086b65da0684dade8f3c81ff2ff6f6a563" %}  # [win64]
+{% set sha256 = "b640d71365ed2f0c70de918f41ded5e84474f773cefeff094f395c5d1e5a7a53" %}  # [win and arm64]
 
 # CUDA C++ Core Libraries (CCCL) includes thrust, cub, and libcudacxx. These are header-only libraries.
 # The cccl package ships CCCL headers in the environment's include directory for use in downstream recipes that require CCCL. It follows CCCL upstream versioning. Use this package to say, "I want a specific version of CCCL headers when building my package (which may be newer than the versions shipped in the latest CUDA Toolkit)."
@@ -35,7 +36,11 @@ package:
   version: {{ version }}
 
 source:
+{% if kitmaker_source %}
+  url: "{{ kitmaker_source }}"
+{% else %}
   url: https://developer.download.nvidia.com/compute/cuda/redist/cccl/{{ platform }}/cccl-{{ platform }}-{{ version }}-archive.{{ extension }}
+{% endif %}
   # Only the platforms with a published hash get the key. A variant with no matching
   # assignment above (ppc64le, tegra) would otherwise render an empty sha256, which
   # conda-build rejects -- breaking `conda smithy rerender` even though no such
