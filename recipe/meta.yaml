@@ -37,7 +37,7 @@ source:
     - fix-header-search-x64.patch  # [win]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [osx or ppc64le]
 
 outputs:
