@@ -33,6 +33,11 @@ source:
   sha256: c0dd608d18ff7014c5fe0d3b2c7d1a6b9b855ec6fcad1f379cc3315610d22635  # [aarch64 and arm_variant_type=="sbsa"]
   #sha256: 296248ed702ea9e1a5e43c367d7a09a9ce2fda8a8c21101c428ea79eecf1a46c  # [aarch64 and arm_variant_type=="tegra"]
   sha256: 48fab83097a636c4119da28bd3c9c9af9327e34c1efed17a14449cc2956ca6d1  # [win]
+  patches:
+    # CCCL CMake config searches for headers at
+    # ../../../include{,/cccl} (Linux layout),
+    # but win uses Library/include/targets/ARCH
+    - fix-header-search-x64.patch  # [win]
 
 build:
   number: 1
@@ -52,14 +57,19 @@ outputs:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
       requires:
-        - cmake  # [linux]
+        - cmake
+        - ninja
       files:
         - verify-version.cmake  # [linux]
+        - test/CMakeLists.txt
       commands:
         - test -d $PREFIX/lib/cmake                      # [linux]
         - test -d $PREFIX/targets/{{ target_name }}/lib  # [linux]
         - if not exist %LIBRARY_LIB%\{{ target_name }}\cmake exit 1    # [win]
         - if not exist %LIBRARY_INC%\targets\{{ target_name }} exit 1  # [win]
+        # Check that the CMake configs find their headers in the installed layout.
+        - cmake -G Ninja -S test -B build-test -DCMAKE_PREFIX_PATH=$PREFIX/targets/{{ target_name }}  # [linux]
+        - cmake -G Ninja -S test -B build-test -DCMAKE_PREFIX_PATH=%LIBRARY_LIB%\{{ target_name }}\cmake  # [win]
         # Extract the CCCL version from the cuda_cccl archive, and compare to the
         # version of the cccl conda package.
         - '[[ "$(cmake -DCCCL_VERSION_FILE="$PREFIX/targets/{{ target_name }}/lib/cmake/cccl/cccl-config-version.cmake" -P verify-version.cmake)" == "{{ cccl_version }}" ]] || exit 1'  # [linux]
@@ -115,5 +125,6 @@ about:
   doc_url: https://docs.nvidia.com/cuda/index.html
 
 extra:
+  feedstock-name: cuda-cccl
   recipe-maintainers:
     - conda-forge/cuda
