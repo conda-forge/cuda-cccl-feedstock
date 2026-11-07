@@ -1,0 +1,54 @@
+--- a/lib/cmake/cub/cub-header-search.cmake
++++ b/lib/cmake/cub/cub-header-search.cmake
+@@ -2,13 +2,13 @@
+ unset(_CUB_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
+ 
+ # Find CMAKE_INSTALL_INCLUDEDIR=include directory"
+-set(from_install_prefix "../../../")
++set(from_install_prefix "../../../../../Library/include/targets/x64")
+ 
+ find_path(_CUB_VERSION_INCLUDE_DIR cub/version.cuh
+   REQUIRED
+   NO_CMAKE_FIND_ROOT_PATH # Don't allow CMake to re-root the search
+   NO_DEFAULT_PATH # Only search explicit paths below:
+   PATHS
+-    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}/include"
++    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}"
+ )
+ set_property(CACHE _CUB_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
+--- a/lib/cmake/libcudacxx/libcudacxx-header-search.cmake
++++ b/lib/cmake/libcudacxx/libcudacxx-header-search.cmake
+@@ -2,13 +2,13 @@
+ unset(_libcudacxx_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
+ 
+ # Find CMAKE_INSTALL_INCLUDEDIR=include directory"
+-set(from_install_prefix "../../../")
++set(from_install_prefix "../../../../../Library/include/targets/x64")
+ 
+ find_path(_libcudacxx_VERSION_INCLUDE_DIR cuda/std/detail/__config
+   REQUIRED
+   NO_CMAKE_FIND_ROOT_PATH # Don't allow CMake to re-root the search
+   NO_DEFAULT_PATH # Only search explicit paths below:
+   PATHS
+-    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}/include" # Install tree
++    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}" # Install tree
+ )
+ set_property(CACHE _libcudacxx_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
+--- a/lib/cmake/thrust/thrust-header-search.cmake
++++ b/lib/cmake/thrust/thrust-header-search.cmake
+@@ -2,13 +2,13 @@
+ unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
+ 
+ # Find CMAKE_INSTALL_INCLUDEDIR=include directory"
+-set(from_install_prefix "../../../")
++set(from_install_prefix "../../../../../Library/include/targets/x64")
+ 
+ find_path(_THRUST_VERSION_INCLUDE_DIR thrust/version.h
+   REQUIRED
+   NO_CMAKE_FIND_ROOT_PATH # Don't allow CMake to re-root the search
+   NO_DEFAULT_PATH # Only search explicit paths below:
+   PATHS
+-    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}/include"
++    "${CMAKE_CURRENT_LIST_DIR}/${from_install_prefix}"
+ )
+ set_property(CACHE _THRUST_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
